@@ -1,0 +1,21 @@
+body {
+  background-color: #343332;
+}
+
+#main-timer {
+  color: white;
+  margin: auto;
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+  font-size: 10vh;
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #dddddd;
+  }
+  #main-timer {
+    color: #343332;
+  }
+}
