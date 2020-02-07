@@ -1,2 +1,3 @@
 # pomodoroClock
-Pairing Project for The Odin Project
+
+A Pomodoro Clock. Made for The Odin Project
