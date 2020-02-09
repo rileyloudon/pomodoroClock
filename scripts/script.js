@@ -7,6 +7,7 @@ const setTime = {
 };
 
 const userInput = document.getElementById('work-time');
+
 userInput.addEventListener('input', () => {
   if (isNaN(userInput.value)) {
     mainTimer.innerHTML = 'Please enter a number.';
