@@ -3,14 +3,14 @@ body {
 }
 
 #clock {
-  /* border: 2px solid pink; */
+  border: 2px solid pink;
+  margin: auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
-  width: 80vmin;
+  width: 90vmin;
   height: 50vh;
   color: white;
-  margin: auto;
   margin-top: 5vh;
   overflow: hidden;
 }
@@ -25,15 +25,18 @@ body {
 
 #work-time,
 #break-time {
-  border: 1px solid white;
+  border: none;
   color: white;
   font-size: 7vh;
   background-color: #343332;
+  width: 90%;
+  text-align: center;
 }
 
 #work-time {
   grid-area: 1 / 1 / 2 / 3;
   font-size: 5vh;
+  margin-left: auto;
 }
 
 #break-time {
