@@ -6,7 +6,7 @@ body {
   border: 2px solid pink;
   margin: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(3, 1fr);
   width: 90vmin;
   height: 50vh;

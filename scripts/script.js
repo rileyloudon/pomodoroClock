@@ -1,6 +1,6 @@
 const mainTimer = document.getElementById('main-timer');
 
-// Defaults times: 25 minute work, 5 minute break.
+// Default times: 25 minute work, 5 minute break.
 const setTime = {
   workTime: 1501000,
   breakTime: 6000,
@@ -32,10 +32,19 @@ const setDisplay = () => {
 
 const play = document.getElementById('play');
 play.addEventListener('click', () => {
-  console.log(userInputWork);
-  if (!isNaN(userInputWork.value)) {
+  if (
+    !isNaN(userInputWork.value) &&
+    !isNaN(userInputBreak.value) &&
+    userInputWork.value > 0 &&
+    userInputWork.value < 59 &&
+    userInputBreak.value > 0 &&
+    userInputBreak.value < 59
+  ) {
     if (userInputWork.value) {
       setTime.workTime = userInputWork.value * 1000 * 60 + 1000;
+    }
+    if (userInputBreak.value) {
+      setTime.breakTime = userInputBreak.value * 1000 * 60 + 1000;
     }
     workCountdown();
   }
