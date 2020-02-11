@@ -1,9 +1,13 @@
+// Fade Play button into pause button, change color of button/numbers when counting down
+// Improve look of play button
+// Add responsiveness
+
 const mainTimer = document.getElementById('main-timer');
 
 // Default times: 25 minute work, 5 minute break.
 const setTime = {
   workTime: 1501000,
-  breakTime: 6000,
+  breakTime: 300000,
 };
 
 const userInputWork = document.getElementById('work-time');
@@ -17,7 +21,12 @@ userInputBreak.addEventListener('input', () => {
 });
 
 const checkInput = input => {
-  isNaN(input) || input < 0 || input > 59
+  isNaN(input) ||
+  input < 0 ||
+  input > 59 ||
+  isNaN(userInputWork.value) ||
+  userInputWork.value < 0 ||
+  userInputWork.value > 59
     ? (mainTimer.innerHTML = 'Enter 0-59')
     : !userInputWork.value
     ? (mainTimer.innerHTML = '25:00s')
@@ -33,12 +42,14 @@ const setDisplay = () => {
 const play = document.getElementById('play');
 play.addEventListener('click', () => {
   if (
-    !isNaN(userInputWork.value) &&
-    !isNaN(userInputBreak.value) &&
-    userInputWork.value > 0 &&
-    userInputWork.value < 59 &&
-    userInputBreak.value > 0 &&
-    userInputBreak.value < 59
+    (!isNaN(userInputWork.value) &&
+      !isNaN(userInputBreak.value) &&
+      userInputWork.value > 0 &&
+      userInputWork.value < 59 &&
+      userInputBreak.value > 0 &&
+      userInputBreak.value < 59) ||
+    userInputBreak.value === '' ||
+    userInputWork.value === ''
   ) {
     if (userInputWork.value) {
       setTime.workTime = userInputWork.value * 1000 * 60 + 1000;
@@ -80,3 +91,4 @@ const runCountdown = (time, next) => {
 };
 
 setDisplay();
+// checkInput();

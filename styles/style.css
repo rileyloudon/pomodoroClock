@@ -46,6 +46,7 @@ body {
 
 #play {
   grid-area: 3 / 3 / 4 / 4;
+  margin-top: 2vh;
   background-color: #343332;
   border: 1px solid white;
   color: white;
