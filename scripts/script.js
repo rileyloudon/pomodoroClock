@@ -1,7 +1,3 @@
-// Fade Play button into pause button, change color of button/numbers when counting down
-// Improve look of play button
-// Add responsiveness
-
 const mainTimer = document.getElementById('main-timer');
 
 // Default times: 25 minute work, 5 minute break.

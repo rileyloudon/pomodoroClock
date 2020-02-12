@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="styles/style.css" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <title>Pomodoro</title>
   </head>
   <body>
     <div id="clock">
-      <input id="work-time" placeholder="Work Time" type="text" value="" />
-      <input id="break-time" placeholder="Break Time" type="text" value="" />
+      <input id="work-time" placeholder="Work Time" type="number" value="" />
+      <input id="break-time" placeholder="Break Time" type="number" value="" />
 
       <div id="main-timer"></div>
-      <button id="play">▶️</button>
+      <button id="play" class="material-icons">play_arrow</button>
     </div>
     <script src="scripts/script.js"></script>
   </body>
