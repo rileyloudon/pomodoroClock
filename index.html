@@ -13,8 +13,22 @@
   </head>
   <body>
     <div id="clock">
-      <input id="work-time" placeholder="Work Time" type="number" value="" />
-      <input id="break-time" placeholder="Break Time" type="number" value="" />
+      <input
+        id="work-time"
+        placeholder="Work Time"
+        type="number"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        value=""
+      />
+      <input
+        id="break-time"
+        placeholder="Break Time"
+        type="number"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        value=""
+      />
 
       <div id="main-timer"></div>
       <button id="play" class="material-icons">play_arrow</button>
