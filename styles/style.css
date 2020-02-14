@@ -80,22 +80,21 @@ body {
   visibility: hidden;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-
 @media (prefers-color-scheme: light) {
   body {
     background-color: #dddddd;
   }
   #main-timer {
     color: #343332;
+  }
+
+  #work-time,
+  #break-time {
+    background-color: #dddddd;
+    color: #343332;
+  }
+
+  ::placeholder {
+    color: grey;
   }
 }
