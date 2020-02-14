@@ -40,6 +40,7 @@ body {
 #work-time:hover,
 #break-time:hover {
   border-bottom: 2px solid pink;
+  outline: none;
 }
 
 #work-time:focus,
@@ -59,7 +60,8 @@ body {
   font-size: 5vh;
 }
 
-#play {
+#play,
+#pause {
   grid-area: 3 / 3 / 4 / 4;
   margin-top: 2vh;
   background-color: #343332;
@@ -68,6 +70,14 @@ body {
   font-size: 6vh;
   height: 50%;
   cursor: pointer;
+}
+
+#play {
+  visibility: visible;
+}
+
+#pause {
+  visibility: hidden;
 }
 
 input::-webkit-outer-spin-button,
