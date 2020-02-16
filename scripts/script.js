@@ -7,9 +7,11 @@
 const mainTimer = document.getElementById('main-timer');
 
 // Default times: 25 minute work, 5 minute break.
-const setTime = {
-  workTime: 1500000,
-  breakTime: 300000,
+const time = {
+  work: 1500000,
+  break: 300000,
+  error: false,
+  paused: false,
 };
 
 const userInputWork = document.getElementById('work-time');
@@ -23,20 +25,19 @@ userInputBreak.addEventListener('input', () => {
 });
 
 const checkInput = input => {
-  let error = false;
   isNaN(input) ||
   input < 0 ||
   input > 59 ||
   isNaN(userInputWork.value) ||
   userInputWork.value < 0 ||
   userInputWork.value > 59
-    ? (error = true)
-    : (error = false);
-  setDisplay(error);
+    ? (time.error = true)
+    : (time.error = false);
+  setDisplay();
 };
 
-const setDisplay = error => {
-  error
+const setDisplay = () => {
+  time.error
     ? (mainTimer.innerHTML = 'Enter 0-59')
     : !userInputWork.value
     ? (mainTimer.innerHTML = '25:00s')
@@ -46,57 +47,67 @@ const setDisplay = error => {
 const play = document.getElementById('play');
 const pause = document.getElementById('pause');
 play.addEventListener('click', () => {
-  if (
-    (!isNaN(userInputWork.value) &&
-      !isNaN(userInputBreak.value) &&
-      userInputWork.value > 0 &&
-      userInputWork.value < 59 &&
-      userInputBreak.value > 0 &&
-      userInputBreak.value < 59) ||
-    userInputBreak.value === '' ||
-    userInputWork.value === ''
-  ) {
-    if (userInputWork.value) {
-      setTime.workTime = userInputWork.value * 1000 * 60;
+  if (time.error === false) {
+    if (time.paused === false) {
+      workCountdown();
     }
-    if (userInputBreak.value) {
-      setTime.breakTime = userInputBreak.value * 1000 * 60 + 1000;
-    }
+    time.paused = false;
     play.style.visibility = 'hidden';
     pause.style.visibility = 'visible';
-    workCountdown();
   }
 });
 
 pause.addEventListener('click', () => {
-  console.log('PAUSE');
+  time.paused = true;
+  play.style.visibility = 'visible';
+  pause.style.visibility = 'hidden';
 });
 
 const workCountdown = () => {
-  let time = new Date().getTime() + setTime.workTime;
+  if (userInputWork.value) {
+    time.work = userInputWork.value * 1000 * 60;
+  }
+  let endTime = new Date().getTime() + time.work;
   let next = 'break';
-  runCountdown(time, next);
+  userInputWork.disabled = true;
+  runCountdown(endTime, next);
 };
 
 const breakCountdown = () => {
-  let time = new Date().getTime() + setTime.breakTime;
+  if (userInputBreak.value) {
+    time.break = userInputBreak.value * 1000 * 60 + 1000;
+  }
+  let endTime = new Date().getTime() + time.break;
   let next = 'work';
-  runCountdown(time, next);
+  userInputBreak.disabled = true;
+
+  runCountdown(endTime, next);
 };
 
-const runCountdown = (time, next) => {
+const runCountdown = (endTime, next) => {
+  let now = new Date().getTime();
+  let timeLeft = endTime - now;
+
   let countdown = setInterval(() => {
-    let now = new Date().getTime();
-    let timeLeft = time - now;
-    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    if (!time.paused) {
+      console.log(timeLeft);
+      if (timeLeft % 100 !== 0) {
+        let diff = 100 - (timeLeft % 100);
+        timeLeft += diff;
+      }
+      timeLeft -= 100;
 
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+      let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    if (timeLeft < 100) {
-      clearInterval(countdown);
-      next === 'work' ? workCountdown() : breakCountdown();
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        next === 'work' ? workCountdown() : breakCountdown();
+      } else {
+        mainTimer.innerHTML = minutes + ':' + seconds + 's';
+      }
     }
-    mainTimer.innerHTML = minutes + ':' + seconds + 's';
   }, 100);
 };
