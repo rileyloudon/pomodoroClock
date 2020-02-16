@@ -48,12 +48,20 @@ const play = document.getElementById('play');
 const pause = document.getElementById('pause');
 play.addEventListener('click', () => {
   if (time.error === false) {
+    if (!userInputWork.value) {
+      userInputWork.value = 25;
+    }
+    if (!userInputBreak.value) {
+      userInputBreak.value = 5;
+    }
     if (time.paused === false) {
       workCountdown();
     }
     time.paused = false;
     play.style.visibility = 'hidden';
     pause.style.visibility = 'visible';
+    userInputWork.readOnly = true;
+    userInputBreak.readOnly = true;
   }
 });
 
@@ -64,22 +72,16 @@ pause.addEventListener('click', () => {
 });
 
 const workCountdown = () => {
-  if (userInputWork.value) {
-    time.work = userInputWork.value * 1000 * 60;
-  }
+  time.work = userInputWork.value * 1000 * 60;
   let endTime = new Date().getTime() + time.work;
   let next = 'break';
-  userInputWork.disabled = true;
   runCountdown(endTime, next);
 };
 
 const breakCountdown = () => {
-  if (userInputBreak.value) {
-    time.break = userInputBreak.value * 1000 * 60 + 1000;
-  }
+  time.break = userInputBreak.value * 1000 * 60 + 1000;
   let endTime = new Date().getTime() + time.break;
   let next = 'work';
-  userInputBreak.disabled = true;
 
   runCountdown(endTime, next);
 };
