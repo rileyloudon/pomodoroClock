@@ -1,9 +1,18 @@
+:root {
+  --dark-secondary-color: #dddddd;
+  /* #1a4876; */
+  --light-secondary-color: #343332;
+  /* #a2a2d0; */
+  --dark-main-color: #343332;
+  --light-main-color: #dddddd;
+}
+
 body {
-  background-color: #343332;
+  background-color: var(--dark-main-color);
 }
 
 #clock {
-  border: 2px solid pink;
+  border: 2px solid var(--dark-secondary-color);
   margin: auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -29,23 +38,23 @@ body {
   box-sizing: border-box;
   margin-top: 1vh;
   border: none;
+  border-bottom: 2px solid var(--dark-secondary-color);
   color: white;
   font-size: 7vh;
-  background-color: #343332;
+  background-color: var(--dark-main-color);
   width: 90%;
   text-align: center;
   cursor: text;
 }
 
-#work-time:hover,
-#break-time:hover {
-  border-bottom: 2px solid pink;
+#work-time:hover::placeholder,
+#break-time:hover::placeholder {
+  color: var(--dark-secondary-color);
   outline: none;
 }
 
 #work-time:focus,
 #break-time:focus {
-  border-bottom: 2px solid pink;
   outline: none;
 }
 
@@ -64,12 +73,18 @@ body {
 #pause {
   grid-area: 3 / 3 / 4 / 4;
   margin-top: 2vh;
-  background-color: #343332;
+  background-color: var(--dark-main-color);
   border: 1px solid white;
   color: white;
   font-size: 6vh;
   height: 50%;
   cursor: pointer;
+}
+
+#play:active,
+#pause:active {
+  color: var(--dark-secondary-color);
+  border-color: var(--dark-secondary-color);
 }
 
 #play {
@@ -82,16 +97,34 @@ body {
 
 @media (prefers-color-scheme: light) {
   body {
-    background-color: #dddddd;
+    background-color: var(--light-main-color);
   }
+
+  #clock {
+    border: 2px solid var(--light-secondary-color);
+  }
+
   #main-timer {
-    color: #343332;
+    color: var(--dark-main-color);
   }
 
   #work-time,
   #break-time {
-    background-color: #dddddd;
-    color: #343332;
+    background-color: var(--light-main-color);
+    color: var(--dark-main-color);
+    border-bottom: 2px solid var(--light-secondary-color);
+  }
+
+  #work-time:hover::placeholder,
+  #break-time:hover::placeholder {
+    color: var(--light-secondary-color);
+  }
+
+  #play,
+  #pause {
+    background-color: var(--light-main-color);
+    border: 1px solid var(--dark-main-color);
+    color: var(--dark-main-color);
   }
 
   ::placeholder {
