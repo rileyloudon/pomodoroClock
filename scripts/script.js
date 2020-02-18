@@ -42,19 +42,19 @@ const checkInput = () => {
 const setDisplay = () => {
   time.error
     ? // If error
-      ((mainTimer.innerHTML = 'Enter 0-59. Max 1 Decimal.'),
-      (mainTimer.style.fontSize = '7vh'))
+      ((mainTimer.innerHTML = 'Enter 0-59. Max 1 Decimal Place'),
+      mainTimer.classList.add('error'))
     : // If the user enters nothing into the work input
     !userInputWork.value
-    ? ((mainTimer.innerHTML = '25:00s'), (mainTimer.style.fontSize = '10vh'))
+    ? ((mainTimer.innerHTML = '25:00s'), mainTimer.classList.remove('error'))
     : // If the work input includes a decimal
     userInputWork.value.includes('.')
     ? ((mainTimer.innerHTML =
         userInputWork.value.split('.')[0] + ':' + secondsDisplay() + 's'),
-      (mainTimer.style.fontSize = '10vh'))
+      mainTimer.classList.remove('error'))
     : // No decimal
       ((mainTimer.innerHTML = userInputWork.value + ':00s'),
-      (mainTimer.style.fontSize = '10vh'));
+      mainTimer.classList.remove('error'));
 };
 
 const secondsDisplay = () => {
