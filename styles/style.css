@@ -19,7 +19,7 @@ body {
   grid-template-rows: repeat(3, 1fr);
   width: 90vmin;
   height: 50vh;
-  color: white;
+  color: var(--dark-secondary-color);
   margin-top: 5vh;
   overflow: hidden;
 }
@@ -39,7 +39,7 @@ body {
   margin-top: 1vh;
   border: none;
   border-bottom: 2px solid var(--dark-secondary-color);
-  color: white;
+  color: var(--dark-secondary-color);
   font-size: 7vh;
   background-color: var(--dark-main-color);
   width: 90%;
@@ -74,8 +74,8 @@ body {
   grid-area: 3 / 3 / 4 / 4;
   margin-top: 2vh;
   background-color: var(--dark-main-color);
-  border: 1px solid white;
-  color: white;
+  border: 1px solid var(--dark-secondary-color);
+  color: var(--dark-secondary-color);
   font-size: 6vh;
   height: 50%;
   cursor: pointer;
