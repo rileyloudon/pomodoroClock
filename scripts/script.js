@@ -11,24 +11,28 @@ const time = {
 // When the user enters anything in the input box, make sure it's valid.
 const userInputWork = document.getElementById('work-time');
 userInputWork.addEventListener('input', () => {
-  checkInput(userInputWork.value);
+  checkInput();
 });
 
 // When the user enters anything in the input box, make sure it's valid.
 const userInputBreak = document.getElementById('break-time');
 userInputBreak.addEventListener('input', () => {
-  checkInput(userInputBreak.value);
+  checkInput();
 });
 
 // Check if the input is a number, and between 0-59.
 // Checking the work value is also requierd otherwise the display can be set to an invalid state.
-const checkInput = input => {
-  isNaN(input) ||
-  input < 0 ||
-  input > 59 ||
+const checkInput = () => {
   isNaN(userInputWork.value) ||
   userInputWork.value < 0 ||
-  userInputWork.value > 59
+  userInputWork.value > 60 ||
+  (userInputWork.value.includes('.') &&
+    userInputWork.value.split('.')[1].length > 1) ||
+  isNaN(userInputBreak.value) ||
+  userInputBreak.value < 0 ||
+  userInputBreak.value > 60 ||
+  (userInputBreak.value.includes('.') &&
+    userInputBreak.value.split('.')[1].length > 1)
     ? (time.error = true)
     : (time.error = false);
   setDisplay();
@@ -37,10 +41,26 @@ const checkInput = input => {
 // Display the correct info, depending on the users input.
 const setDisplay = () => {
   time.error
-    ? (mainTimer.innerHTML = 'Enter 0-59')
-    : !userInputWork.value
-    ? (mainTimer.innerHTML = '25:00s')
-    : (mainTimer.innerHTML = userInputWork.value + ':00s');
+    ? // If error
+      ((mainTimer.innerHTML = 'Enter 0-59. Max 1 Decimal.'),
+      (mainTimer.style.fontSize = '7vh'))
+    : // If the user enters nothing into the work input
+    !userInputWork.value
+    ? ((mainTimer.innerHTML = '25:00s'), (mainTimer.style.fontSize = '10vh'))
+    : // If the work input includes a decimal
+    userInputWork.value.includes('.')
+    ? ((mainTimer.innerHTML =
+        userInputWork.value.split('.')[0] + ':' + secondsDisplay() + 's'),
+      (mainTimer.style.fontSize = '10vh'))
+    : // No decimal
+      ((mainTimer.innerHTML = userInputWork.value + ':00s'),
+      (mainTimer.style.fontSize = '10vh'));
+};
+
+const secondsDisplay = () => {
+  let afterDecimal = userInputWork.value.split('.')[1] * 6;
+  afterDecimal < 10 ? (afterDecimal = '0' + afterDecimal) : afterDecimal;
+  return afterDecimal;
 };
 
 // Watch for the play button to be pressed.
