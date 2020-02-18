@@ -43,6 +43,7 @@ body {
   margin-top: 1vh;
   border: none;
   border-bottom: 2px solid var(--dark-secondary-color);
+  border-radius: 0;
   color: var(--dark-secondary-color);
   font-size: 5vh;
   background-color: var(--dark-main-color);
