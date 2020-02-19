@@ -1,10 +1,12 @@
+// Green when playing, yellow when paused.
+
 const mainTimer = document.getElementById('main-timer');
 
 // Default times: 25 minute work, 5 minute break.
 const time = {
   work: null,
   break: null,
-  error: false,
+  error: 'false',
   paused: false,
 };
 
@@ -21,40 +23,55 @@ userInputBreak.addEventListener('input', () => {
 });
 
 // Check if the input is a number, and between 0-59.
-// Checking the work value is also requierd otherwise the display can be set to an invalid state.
 const checkInput = () => {
   isNaN(userInputWork.value) ||
   userInputWork.value < 0 ||
   userInputWork.value > 60 ||
-  (userInputWork.value.includes('.') &&
-    userInputWork.value.split('.')[1].length > 1) ||
   isNaN(userInputBreak.value) ||
   userInputBreak.value < 0 ||
-  userInputBreak.value > 60 ||
-  (userInputBreak.value.includes('.') &&
-    userInputBreak.value.split('.')[1].length > 1)
-    ? (time.error = true)
-    : (time.error = false);
+  userInputBreak.value > 60
+    ? (time.error = 'invalid number')
+    : (time.error = 'false');
+
+  // Make sure the decimal place is valid.
+  // Only dispaly this error if the numbers don't return an error.
+  if (
+    (time.error === 'false' && userInputWork.value.includes('.')) ||
+    userInputBreak.value.includes('.')
+  ) {
+    (userInputWork.value.includes('.') &&
+      userInputWork.value.split('.')[1].length > 1) ||
+    (userInputBreak.value.includes('.') &&
+      userInputBreak.value.split('.')[1].length > 1)
+      ? (time.error = 'invalid decimal')
+      : (time.error = 'false');
+  }
   setDisplay();
 };
 
 // Display the correct info, depending on the users input.
 const setDisplay = () => {
-  time.error
-    ? // If error
-      ((mainTimer.innerHTML = 'Enter 0-59. Max 1 Decimal Place'),
-      mainTimer.classList.add('error'))
-    : // If the user enters nothing into the work input
+  // If there's an error, display what's wrong.
+  if (time.error !== 'false') {
+    time.error === 'invalid number'
+      ? (mainTimer.innerHTML = 'Enter 0-60')
+      : (mainTimer.innerHTML = 'Max 1 Decimal Place');
+  } else {
+    // If there's no input
     !userInputWork.value
-    ? ((mainTimer.innerHTML = '25:00s'), mainTimer.classList.remove('error'))
-    : // If the work input includes a decimal
-    userInputWork.value.includes('.')
-    ? ((mainTimer.innerHTML =
-        userInputWork.value.split('.')[0] + ':' + secondsDisplay() + 's'),
-      mainTimer.classList.remove('error'))
-    : // No decimal
-      ((mainTimer.innerHTML = userInputWork.value + ':00s'),
-      mainTimer.classList.remove('error'));
+      ? (mainTimer.innerHTML = '25:00s')
+      : // If the work input includes a decimal
+      userInputWork.value.includes('.')
+      ? (mainTimer.innerHTML = minuteDisplay() + ':' + secondsDisplay() + 's')
+      : // No decimal
+        (mainTimer.innerHTML = userInputWork.value + ':00s');
+  }
+};
+
+const minuteDisplay = () => {
+  let beforeDecimal = userInputWork.value.split('.')[0];
+  beforeDecimal === '' ? (beforeDecimal = 0) : beforeDecimal;
+  return beforeDecimal;
 };
 
 const secondsDisplay = () => {
@@ -67,7 +84,7 @@ const secondsDisplay = () => {
 const play = document.getElementById('play');
 const pause = document.getElementById('pause');
 play.addEventListener('click', () => {
-  if (time.error === false) {
+  if (time.error === 'false') {
     // If the user doesnt enter anything, default to a 25 minute work timer.
     if (!userInputWork.value) {
       userInputWork.value = 25;
@@ -101,24 +118,27 @@ pause.addEventListener('click', () => {
   pause.style.visibility = 'hidden';
 });
 
-const workCountdown = () => {
+const workCountdown = running => {
   // Convert the users input to milliseconds.
-  time.work = userInputWork.value * 1000 * 60;
+  // If the countdown loops back to work, add 1 second to the timer so it will display properly.
+  running === true
+    ? (time.work = userInputWork.value * 1000 * 60 + 1000)
+    : (time.work = userInputWork.value * 1000 * 60);
   // End of the timer is the current time + the users input.
   let endTime = new Date().getTime() + time.work;
   // Tell the countdown timer what timer (work/break) to do next.
-  let next = 'break';
-  runCountdown(endTime, next);
+  let current = 'work';
+  runCountdown(endTime, current);
 };
 
 const breakCountdown = () => {
   time.break = userInputBreak.value * 1000 * 60 + 1000;
   let endTime = new Date().getTime() + time.break;
-  let next = 'work';
-  runCountdown(endTime, next);
+  let current = 'break';
+  runCountdown(endTime, current);
 };
 
-const runCountdown = (endTime, next) => {
+const runCountdown = (endTime, current) => {
   let now = new Date().getTime();
   let timeLeft = endTime - now;
 
@@ -133,7 +153,7 @@ const runCountdown = (endTime, next) => {
         timeLeft += diff;
       }
 
-      // Subrtact 100 milliseconds from the thime left every interval.
+      // Subrtact 100 milliseconds from the time every interval.
       timeLeft -= 100;
 
       // Convert milliseconds to minutes and seconds.
@@ -146,7 +166,7 @@ const runCountdown = (endTime, next) => {
       // If the time left is 0 or less, stop the countdown and run the next one (either work/break)
       if (timeLeft <= 0) {
         clearInterval(countdown);
-        next === 'work' ? workCountdown() : breakCountdown();
+        current === 'work' ? breakCountdown() : workCountdown(true);
       } else {
         // Else update the display.
         mainTimer.innerHTML = minutes + ':' + seconds + 's';
