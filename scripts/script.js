@@ -1,5 +1,5 @@
 // Green when playing, yellow when paused.
-
+const clock = document.getElementById('clock');
 const mainTimer = document.getElementById('main-timer');
 
 // Default times: 25 minute work, 5 minute break.
@@ -97,6 +97,14 @@ play.addEventListener('click', () => {
       workCountdown();
     }
 
+    if (time.paused === false) {
+      clock.classList.remove('paused');
+      clock.classList.add('playing');
+    } else {
+      clock.classList.remove('paused');
+      clock.classList.add('resume');
+    }
+
     time.paused = false;
 
     // Swap the buttons
@@ -112,6 +120,11 @@ play.addEventListener('click', () => {
 // Watch for the pause button to be pressed.
 pause.addEventListener('click', () => {
   time.paused = true;
+
+  clock.classList.remove('playing');
+  clock.classList.remove('resume');
+
+  clock.classList.add('paused');
 
   // Swap the buttons back.
   play.style.visibility = 'visible';
