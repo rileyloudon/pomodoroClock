@@ -1,4 +1,3 @@
-// Green when playing, yellow when paused.
 const clock = document.getElementById('clock');
 const mainTimer = document.getElementById('main-timer');
 
@@ -6,7 +5,7 @@ const mainTimer = document.getElementById('main-timer');
 const time = {
   work: null,
   break: null,
-  error: 'false',
+  error: false,
   paused: false,
 };
 
@@ -22,7 +21,7 @@ userInputBreak.addEventListener('input', () => {
   checkInput();
 });
 
-// Check if the input is a number, and between 0-59.
+// Check if the input is a number, and between 0-60.
 const checkInput = () => {
   isNaN(userInputWork.value) ||
   userInputWork.value < 0 ||
@@ -30,21 +29,29 @@ const checkInput = () => {
   isNaN(userInputBreak.value) ||
   userInputBreak.value < 0 ||
   userInputBreak.value > 60
-    ? (time.error = 'invalid number')
-    : (time.error = 'false');
+    ? ((time.error = 'invalid number'),
+      clock.classList.add('error'),
+      clock.classList.remove('no-error'))
+    : ((time.error = false),
+      clock.classList.add('no-error'),
+      clock.classList.remove('error'));
 
   // Make sure the decimal place is valid.
   // Only dispaly this error if the numbers don't return an error.
   if (
-    (time.error === 'false' && userInputWork.value.includes('.')) ||
-    userInputBreak.value.includes('.')
+    time.error === false &&
+    (userInputWork.value.includes('.') || userInputBreak.value.includes('.'))
   ) {
     (userInputWork.value.includes('.') &&
       userInputWork.value.split('.')[1].length > 1) ||
     (userInputBreak.value.includes('.') &&
       userInputBreak.value.split('.')[1].length > 1)
-      ? (time.error = 'invalid decimal')
-      : (time.error = 'false');
+      ? ((time.error = 'invalid decimal'),
+        clock.classList.add('error'),
+        clock.classList.remove('no-error'))
+      : ((time.error = false),
+        clock.classList.add('no-error'),
+        clock.classList.remove('error'));
   }
   setDisplay();
 };
@@ -52,7 +59,7 @@ const checkInput = () => {
 // Display the correct info, depending on the users input.
 const setDisplay = () => {
   // If there's an error, display what's wrong.
-  if (time.error !== 'false') {
+  if (time.error !== false) {
     time.error === 'invalid number'
       ? (mainTimer.innerHTML = 'Enter 0-60')
       : (mainTimer.innerHTML = 'Max 1 Decimal Place');
@@ -68,12 +75,14 @@ const setDisplay = () => {
   }
 };
 
+// Add a 0 before the : if there's 0 minutes left.
 const minuteDisplay = () => {
   let beforeDecimal = userInputWork.value.split('.')[0];
   beforeDecimal === '' ? (beforeDecimal = 0) : beforeDecimal;
   return beforeDecimal;
 };
 
+// Add a 0 before the last digit if there's less than 10 seconds left.
 const secondsDisplay = () => {
   let afterDecimal = userInputWork.value.split('.')[1] * 6;
   afterDecimal < 10 ? (afterDecimal = '0' + afterDecimal) : afterDecimal;
@@ -81,10 +90,10 @@ const secondsDisplay = () => {
 };
 
 // Watch for the play button to be pressed.
-const play = document.getElementById('play');
-const pause = document.getElementById('pause');
+const play = document.getElementById('playBtn');
+const pause = document.getElementById('pauseBtn');
 play.addEventListener('click', () => {
-  if (time.error === 'false') {
+  if (time.error === false) {
     // If the user doesnt enter anything, default to a 25 minute work timer.
     if (!userInputWork.value) {
       userInputWork.value = 25;
@@ -99,7 +108,7 @@ play.addEventListener('click', () => {
 
     if (time.paused === false) {
       clock.classList.remove('paused');
-      clock.classList.add('playing');
+      clock.classList.add('play');
     } else {
       clock.classList.remove('paused');
       clock.classList.add('resume');
@@ -121,9 +130,8 @@ play.addEventListener('click', () => {
 pause.addEventListener('click', () => {
   time.paused = true;
 
-  clock.classList.remove('playing');
+  clock.classList.remove('play');
   clock.classList.remove('resume');
-
   clock.classList.add('paused');
 
   // Swap the buttons back.

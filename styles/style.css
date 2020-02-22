@@ -23,10 +23,10 @@ body {
   overflow: hidden;
   box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.5);
 
-  -webkit-transition: all 1s ease-out;
-  -moz-transition: all 1s ease-out;
-  -o-transition: all 1s ease-out;
-  transition: all 1s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 #main-timer {
@@ -35,16 +35,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 10vh;
+  font-size: 8vh;
   cursor: default;
-
-  /* -webkit-transition: all 0.5s ease-out;
-  -moz-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out; */
-}
-
-#main-timer.error {
-  font-size: 5vh;
 }
 
 #work-time,
@@ -82,8 +74,8 @@ body {
   grid-area: 1 / 4 / 2 / 6;
 }
 
-#play,
-#pause {
+#playBtn,
+#pauseBtn {
   grid-area: 3 / 3 / 4 / 4;
   margin-top: 2vh;
   background-color: var(--dark-main-color);
@@ -94,40 +86,67 @@ body {
   cursor: pointer;
 }
 
-#play:active,
-#pause:active {
+#playBtn:active,
+#pauseBtn:active {
   color: var(--dark-secondary-color);
   border-color: var(--dark-secondary-color);
 }
 
-#play {
+#playBtn {
   visibility: visible;
 }
 
-#pause {
+#pauseBtn {
   visibility: hidden;
 }
 
 /* Animations */
-div.playing,
-div.playing * {
-  animation: timerPlay 1s ease-in-out;
+div#clock.play,
+div#clock.play * {
+  animation: timer-play 1s ease-in;
   animation-fill-mode: forwards;
 }
 
-div.paused,
-div.paused * {
-  animation: timerPaused 1s ease-in-out;
+div#clock.paused,
+div#clock.paused * {
+  animation: timer-paused 1s ease-in;
   animation-fill-mode: forwards;
 }
 
-div.resume,
-div.resume * {
-  animation: timerResume 1s ease-in-out;
+div#clock.resume,
+div#clock.resume * {
+  animation: timer-resume 1s ease-in;
   animation-fill-mode: forwards;
 }
 
-@keyframes timerPlay {
+.error,
+.error * {
+  animation: error 0.25s ease-in;
+  animation-fill-mode: forwards;
+}
+
+.no-error,
+.no-error * {
+  animation: no-error 0.25s ease-in;
+  animation-fill-mode: forwards;
+}
+
+/* #work-time.error,
+#break-time.error {
+  animation: error 0.1s ease-in;
+  animation-fill-mode: forwards;
+} */
+/* #pause:hover {
+  animation: timerPaused 0.5s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+div.pause #play:hover {
+  animation: timerResume 0.5s ease-in-out;
+  animation-fill-mode: forwards;
+} */
+
+@keyframes timer-play {
   from {
     color: var(--dark-secondary-color);
     border-color: var(--dark-secondary-color);
@@ -138,7 +157,7 @@ div.resume * {
   }
 }
 
-@keyframes timerPaused {
+@keyframes timer-paused {
   from {
     color: green;
     border-color: green;
@@ -149,7 +168,7 @@ div.resume * {
   }
 }
 
-@keyframes timerResume {
+@keyframes timer-resume {
   from {
     color: yellow;
     border-color: yellow;
@@ -157,6 +176,28 @@ div.resume * {
   to {
     color: green;
     border-color: green;
+  }
+}
+
+@keyframes error {
+  from {
+    color: var(--dark-secondary-color);
+    border-color: var(--dark-secondary-color);
+  }
+  to {
+    color: red;
+    border-color: red;
+  }
+}
+
+@keyframes no-error {
+  from {
+    color: red;
+    border-color: red;
+  }
+  to {
+    color: var(--dark-secondary-color);
+    border-color: var(--dark-secondary-color);
   }
 }
 
@@ -167,7 +208,7 @@ div.resume * {
   }
 
   #main-timer.error {
-    font-size: 5vw;
+    font-size: 7vw;
   }
 
   #work-time,
@@ -191,7 +232,7 @@ div.resume * {
   }
 
   #main-timer.error {
-    font-size: 5vh;
+    font-size: 7vh;
   }
 
   #work-time,
@@ -212,7 +253,7 @@ div.resume * {
   }
 
   #main-timer.error {
-    font-size: 6vw;
+    font-size: 7vw;
   }
 
   #work-time,
@@ -271,6 +312,7 @@ div.resume * {
     color: grey;
   }
 
+  /* Animation */
   @keyframes timerPlay {
     from {
       color: var(--light-secondary-color);
