@@ -103,19 +103,19 @@ body {
 /* Animations */
 div#clock.play,
 div#clock.play * {
-  animation: timer-play 1s ease-in;
+  animation: timer-play 0.3s ease-in;
   animation-fill-mode: forwards;
 }
 
 div#clock.paused,
 div#clock.paused * {
-  animation: timer-paused 1s ease-in;
+  animation: timer-paused 0.5s ease-in;
   animation-fill-mode: forwards;
 }
 
 div#clock.resume,
 div#clock.resume * {
-  animation: timer-resume 1s ease-in;
+  animation: timer-resume 0.5s ease-in;
   animation-fill-mode: forwards;
 }
 
@@ -286,13 +286,13 @@ div.pause #play:hover {
   }
 
   #main-timer {
-    color: var(--dark-main-color);
+    color: var(--light-secondary-color);
   }
 
   #work-time,
   #break-time {
     background-color: var(--light-main-color);
-    color: var(--dark-main-color);
+    color: var(--light-secondary-color-color);
     border-bottom: 2px solid var(--light-secondary-color);
   }
 
@@ -301,33 +301,33 @@ div.pause #play:hover {
     color: var(--light-secondary-color);
   }
 
-  #play,
-  #pause {
+  #playBtn,
+  #pauseBtn {
     background-color: var(--light-main-color);
-    border: 1px solid var(--dark-main-color);
-    color: var(--dark-main-color);
+    border: 1px solid var(--light-secondary-color);
+    color: var(--light-secondary-color);
   }
 
   input::placeholder {
     color: grey;
   }
 
-  /* Animation */
-  @keyframes timerPlay {
+  /* Light Animations */
+  @keyframes timer-play {
     from {
       color: var(--light-secondary-color);
       border-color: var(--light-secondary-color);
     }
     to {
-      color: #025e02;
-      border-color: #025e02;
+      color: green;
+      border-color: green;
     }
   }
 
-  @keyframes timerPaused {
+  @keyframes timer-paused {
     from {
-      color: #025e02;
-      border-color: #025e02;
+      color: green;
+      border-color: green;
     }
     to {
       color: #bdbd00;
@@ -335,14 +335,36 @@ div.pause #play:hover {
     }
   }
 
-  @keyframes timerResume {
+  @keyframes timer-resume {
     from {
       color: #bdbd00;
       border-color: #bdbd00;
     }
     to {
-      color: #025e02;
-      border-color: #025e02;
+      color: green;
+      border-color: green;
+    }
+  }
+
+  @keyframes error {
+    from {
+      color: var(--light-secondary-color);
+      border-color: var(--light-secondary-color);
+    }
+    to {
+      color: red;
+      border-color: red;
+    }
+  }
+
+  @keyframes no-error {
+    from {
+      color: red;
+      border-color: red;
+    }
+    to {
+      color: var(--light-secondary-color);
+      border-color: var(--light-secondary-color);
     }
   }
 }
