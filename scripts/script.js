@@ -29,12 +29,8 @@ const checkInput = () => {
   isNaN(userInputBreak.value) ||
   userInputBreak.value < 0 ||
   userInputBreak.value > 60
-    ? ((time.error = 'invalid number'),
-      clock.classList.add('error'),
-      clock.classList.remove('no-error'))
-    : ((time.error = false),
-      clock.classList.add('no-error'),
-      clock.classList.remove('error'));
+    ? (time.error = 'invalid number')
+    : (time.error = false);
 
   // Make sure the decimal place is valid.
   // Only dispaly this error if the numbers don't return an error.
@@ -46,12 +42,17 @@ const checkInput = () => {
       userInputWork.value.split('.')[1].length > 1) ||
     (userInputBreak.value.includes('.') &&
       userInputBreak.value.split('.')[1].length > 1)
-      ? ((time.error = 'invalid decimal'),
-        clock.classList.add('error'),
-        clock.classList.remove('no-error'))
-      : ((time.error = false),
-        clock.classList.add('no-error'),
-        clock.classList.remove('error'));
+      ? (time.error = 'invalid decimal')
+      : (time.error = false);
+  }
+
+  // Add the error class so the page can be styled on error.
+  if (time.error !== false) {
+    clock.classList.add('error');
+    clock.classList.remove('no-error');
+  } else if (clock.classList.contains('error')) {
+    clock.classList.add('no-error');
+    clock.classList.remove('error');
   }
   setDisplay();
 };
@@ -196,3 +197,5 @@ const runCountdown = (endTime, current) => {
     // Update every 100 milliseconds to help prevent time left from getting out of sync.
   }, 100);
 };
+
+checkInput();
