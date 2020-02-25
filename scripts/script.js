@@ -1,3 +1,7 @@
+// Work = Green, Break = Blue
+// Beep when timer is done
+// Create an icon. (Sideways : one dot green, one blue?)
+
 const clock = document.getElementById('clock');
 const mainTimer = document.getElementById('main-timer');
 
@@ -44,6 +48,11 @@ const checkInput = () => {
       userInputBreak.value.split('.')[1].length > 1)
       ? (time.error = 'invalid decimal')
       : (time.error = false);
+  }
+
+  // Allow just entering a decimal.
+  if (userInputWork.value === '.' || userInputBreak.value === '.') {
+    time.error = false;
   }
 
   // Add the error class so the page can be styled on error.
@@ -96,11 +105,11 @@ const pause = document.getElementById('pauseBtn');
 play.addEventListener('click', () => {
   if (time.error === false) {
     // If the user doesnt enter anything, default to a 25 minute work timer.
-    if (!userInputWork.value) {
+    if (!userInputWork.value || userInputWork.value === '.') {
       userInputWork.value = 25;
     }
     // If the user doesnt enter anything, default to a 5 minute break timer.
-    if (!userInputBreak.value) {
+    if (!userInputBreak.value || userInputBreak.value === '.') {
       userInputBreak.value = 5;
     }
     if (time.paused === false) {
