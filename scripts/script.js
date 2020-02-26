@@ -117,11 +117,19 @@ play.addEventListener('click', () => {
     }
 
     if (time.paused === false) {
-      clock.classList.remove('paused');
-      clock.classList.add('play');
-    } else {
-      clock.classList.remove('paused');
-      clock.classList.add('resume');
+      clock.classList.add('work-play');
+      clock.classList.remove('work-paused');
+    } else if (
+      clock.classList.contains('work-countdown') ||
+      clock.classList.contains('work-paused')
+    ) {
+      clock.classList.add('work-resume');
+      clock.classList.remove('work-paused');
+    }
+
+    if (clock.classList.contains('break-countdown')) {
+      clock.classList.remove('break-paused');
+      clock.classList.add('break-resume');
     }
 
     time.paused = false;
@@ -140,9 +148,18 @@ play.addEventListener('click', () => {
 pause.addEventListener('click', () => {
   time.paused = true;
 
-  clock.classList.remove('play');
-  clock.classList.remove('resume');
-  clock.classList.add('paused');
+  if (
+    clock.classList.contains('work-countdown') ||
+    clock.classList.contains('work-play') ||
+    clock.classList.contains('work-resume')
+  ) {
+    clock.classList.remove('work-play');
+    clock.classList.remove('work-resume');
+    clock.classList.add('work-paused');
+  } else if (clock.classList.contains('break-countdown')) {
+    clock.classList.remove('break-resume');
+    clock.classList.add('break-paused');
+  }
 
   // Swap the buttons back.
   play.style.visibility = 'visible';
@@ -155,9 +172,17 @@ const workCountdown = running => {
   running === true
     ? (time.work = userInputWork.value * 1000 * 60 + 1000)
     : (time.work = userInputWork.value * 1000 * 60);
+
   // End of the timer is the current time + the users input.
   let endTime = new Date().getTime() + time.work;
-  // Tell the countdown timer what timer (work/break) to do next.
+
+  if (clock.classList.contains('break-countdown')) {
+    clock.classList.remove('break-countdown');
+    clock.classList.remove('break-resume');
+    clock.classList.remove('break-paused');
+    clock.classList.add('work-countdown');
+  }
+
   let current = 'work';
   runCountdown(endTime, current);
 };
@@ -165,6 +190,13 @@ const workCountdown = running => {
 const breakCountdown = () => {
   time.break = userInputBreak.value * 1000 * 60 + 1000;
   let endTime = new Date().getTime() + time.break;
+
+  clock.classList.remove('work-play');
+  clock.classList.remove('work-countdown');
+  clock.classList.remove('work-resume');
+  clock.classList.remove('work-paused');
+  clock.classList.add('break-countdown');
+
   let current = 'break';
   runCountdown(endTime, current);
 };

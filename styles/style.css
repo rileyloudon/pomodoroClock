@@ -106,21 +106,46 @@ body {
 }
 
 /* Animations */
-div#clock.play,
-div#clock.play * {
-  animation: timer-play 0.3s ease-in;
+/* Animations - START/STOP TIME */
+div#clock.work-play,
+div#clock.work-play * {
+  animation: work-start 0.3s ease-in;
   animation-fill-mode: forwards;
 }
 
-div#clock.paused,
-div#clock.paused * {
-  animation: timer-paused 0.5s ease-in;
+div#clock.work-countdown,
+div#clock.work-countdown * {
+  animation: work-play 0.3s ease-in;
   animation-fill-mode: forwards;
 }
 
-div#clock.resume,
-div#clock.resume * {
-  animation: timer-resume 0.5s ease-in;
+div#clock.break-countdown,
+div#clock.break-countdown * {
+  animation: break-play 0.3s ease-in;
+  animation-fill-mode: forwards;
+}
+
+div#clock.work-paused,
+div#clock.work-paused * {
+  animation: work-paused 0.3s ease-in;
+  animation-fill-mode: forwards;
+}
+
+div#clock.break-paused,
+div#clock.break-paused * {
+  animation: break-paused 0.3s ease-in;
+  animation-fill-mode: forwards;
+}
+
+div#clock.work-resume,
+div#clock.work-resume * {
+  animation: work-resume 0.3s ease-in;
+  animation-fill-mode: forwards;
+}
+
+div#clock.break-resume,
+div#clock.break-resume * {
+  animation: break-resume 0.3s ease-in;
   animation-fill-mode: forwards;
 }
 
@@ -136,22 +161,8 @@ div#clock.resume * {
   animation-fill-mode: forwards;
 }
 
-/* #work-time.error,
-#break-time.error {
-  animation: error 0.1s ease-in;
-  animation-fill-mode: forwards;
-} */
-/* #pause:hover {
-  animation: timerPaused 0.5s ease-in-out;
-  animation-fill-mode: forwards;
-}
-
-div.pause #play:hover {
-  animation: timerResume 0.5s ease-in-out;
-  animation-fill-mode: forwards;
-} */
-
-@keyframes timer-play {
+/* Animations - KEYFRAMES */
+@keyframes work-start {
   from {
     color: var(--dark-secondary-color);
     border-color: var(--dark-secondary-color);
@@ -162,7 +173,29 @@ div.pause #play:hover {
   }
 }
 
-@keyframes timer-paused {
+@keyframes work-play {
+  from {
+    color: #10a5f5;
+    border-color: #10a5f5;
+  }
+  to {
+    color: green;
+    border-color: green;
+  }
+}
+
+@keyframes break-play {
+  from {
+    color: green;
+    border-color: green;
+  }
+  to {
+    color: #10a5f5;
+    border-color: #10a5f5;
+  }
+}
+
+@keyframes work-paused {
   from {
     color: green;
     border-color: green;
@@ -173,7 +206,18 @@ div.pause #play:hover {
   }
 }
 
-@keyframes timer-resume {
+@keyframes break-paused {
+  from {
+    color: #10a5f5;
+    border-color: #10a5f5;
+  }
+  to {
+    color: yellow;
+    border-color: yellow;
+  }
+}
+
+@keyframes work-resume {
   from {
     color: yellow;
     border-color: yellow;
@@ -181,6 +225,17 @@ div.pause #play:hover {
   to {
     color: green;
     border-color: green;
+  }
+}
+
+@keyframes break-resume {
+  from {
+    color: yellow;
+    border-color: yellow;
+  }
+  to {
+    color: #10a5f5;
+    border-color: #10a5f5;
   }
 }
 
