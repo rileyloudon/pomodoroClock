@@ -332,7 +332,7 @@ div#clock.break-resume * {
   }
 
   /* Light Animations */
-  @keyframes timer-play {
+  @keyframes work-start {
     from {
       color: var(--light-secondary-color);
       border-color: var(--light-secondary-color);
@@ -343,7 +343,7 @@ div#clock.break-resume * {
     }
   }
 
-  @keyframes timer-paused {
+  @keyframes work-paused {
     from {
       color: green;
       border-color: green;
@@ -354,7 +354,18 @@ div#clock.break-resume * {
     }
   }
 
-  @keyframes timer-resume {
+  @keyframes break-paused {
+    from {
+      color: #10a5f5;
+      border-color: #10a5f5;
+    }
+    to {
+      color: #bdbd00;
+      border-color: #bdbd00;
+    }
+  }
+
+  @keyframes work-resume {
     from {
       color: #bdbd00;
       border-color: #bdbd00;
@@ -362,6 +373,17 @@ div#clock.break-resume * {
     to {
       color: green;
       border-color: green;
+    }
+  }
+
+  @keyframes break-resume {
+    from {
+      color: #bdbd00;
+      border-color: #bdbd00;
+    }
+    to {
+      color: #10a5f5;
+      border-color: #10a5f5;
     }
   }
 

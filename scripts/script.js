@@ -1,4 +1,3 @@
-// Work = Green, Break = Blue
 // Beep when timer is done
 // Create an icon. (Sideways : one dot green, one blue?)
 
